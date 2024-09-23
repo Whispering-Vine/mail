@@ -285,12 +285,26 @@ setTimeout(function() {
 // Check on page load if it's time to show the modal again
 window.onload = function() {
   const lastShown = getCookie("mailchimp_last_shown");
+  const modalClosed = getCookie("mailchimp_modal_closed");
+  
+  // Check if modal was closed and if it has been less than 6 days
+  if (modalClosed) {
+    const sixDaysAgo = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+    if (new Date(modalClosed) > sixDaysAgo) {
+      return; // Do not show the modal if it was closed in the last 6 days
+    }
+  }
+
   if (lastShown) {
     const fiveDaysAgo = new Date(new Date().getTime() - (5 * 24 * 60 * 60 * 1000));
     if (new Date(lastShown) < fiveDaysAgo && !getCookie("mailchimp_subscribed")) {
       showModal();
       setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
     }
+  } else {
+    // Show the modal if the user hasn't subscribed or hasn't seen it
+    showModal();
+    setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
   }
 }
 
