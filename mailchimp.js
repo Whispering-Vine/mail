@@ -159,9 +159,6 @@ style.textContent = `
     .mailchimp-right-column {
       display: none;
     }
-    .mailchimp-left-column {
-      width: 100%;
-    }
   }
 `;
 document.head.appendChild(style);
