@@ -146,7 +146,10 @@ style.textContent = `
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+    /* -webkit-box-shadow: 0 0 0px 1000px #3a3a3c inset !important; */
+    -webkit-background-clip: text;
+    /* This is a bonus from here: https://github.com/nextui-org/nextui/issues/1346#issuecomment-1855635162*/
+    transition: background-color 5000s ease-in-out 0s;
   }
   
   @media (max-width: 768px) {
@@ -176,7 +179,7 @@ const modalHTML = `
           <div class="mailchimp-icon">
             <img src="img/email.svg" alt="Email icon">
           </div>
-          <input type="email" name="MERGE0" placeholder="Sign up for exclusive deals!" required class="mailchimp-input">
+          <input type="email" name="MERGE0" placeholder="Sign up for exclusive deals!" required class="mailchimp-input" autocomplete="email">
           <button type="submit" class="mailchimp-button">→</button>
         </form>
         <div class="subscription-message">Thanks for Subscribing!</div>
