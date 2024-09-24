@@ -106,7 +106,7 @@
     // HTML template for the newsletter signup form
     var template = `
         <div class="wv-newsletter-container">
-            <form id="wv-newsletter-form" action="https://whisperingvinewine.us22.list-manage.com/subscribe/post?u=841ac5f1d95f2aff901de9613&amp;id=bea241e703" method="POST" class="wv-newsletter-form">
+            <form id="wv-newsletter-form" onsubmit="console.log('Inline submit triggered!')" action="https://whisperingvinewine.us22.list-manage.com/subscribe/post?u=841ac5f1d95f2aff901de9613&amp;id=bea241e703" method="POST" class="wv-newsletter-form">
                 <input type="hidden" name="id" value="bea241e703">
                 <input type="hidden" name="u" value="841ac5f1d95f2aff901de9613">
                 <div class="wv-newsletter-icon">
