@@ -153,37 +153,31 @@ style.textContent = `
   }
   
   @media (max-width: 768px) {
+    .mailchimp-modal {
+      align-items: flex-end; /* Align to the bottom for mobile */
+      justify-content: center;
+      height: auto; /* Adjust height for mobile */
+      bottom: -100%; /* Start off-screen at the bottom */
+      transition: opacity 0.5s ease, visibility 0.5s ease, bottom 0.5s ease; /* Add transition for bottom */
+    }
+    .mailchimp-modal.active {
+      bottom: 0; /* Slide up to visible */
+    }
     .mailchimp-modal-content {
-      flex-direction: column; /* Column for overall layout */
-      align-items: center; /* Center content horizontally */
-      padding: 20px;
+      border-top-left-radius: 12px; /* Rounded top corners for mobile */
+      border-top-right-radius: 12px; /* Rounded top corners for mobile */
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      width: 100%; /* Full width for mobile */
+      max-width: none; /* No max width for mobile */
+      padding: 20px; /* Padding adjustment for mobile */
     }
     .mailchimp-right-column {
-      display: none;
+      display: none; /* Hide right column on mobile */
     }
     .mailchimp-left-column {
-      width: 100%; /* Make left column full width */
-      padding: 20px; /* Adjust padding */
-    }
-    .mailchimp-form {
-      display: flex; /* Keep items next to each other */
-      align-items: center;
-      width: 100%; /* Full width for form */
-      justify-content: flex-start; /* Space items evenly */
-    }
-    .mailchimp-icon {
-      flex: 0 0 auto; /* Allow icon to keep its width */
-      margin-right: 20px;
-    }
-    .mailchimp-input {
-      flex: 1; /* Input takes remaining space */
-      padding: 0px; /* Space between input and button */
-    }
-    .mailchimp-button {
-      flex: 0 0 auto; /* Button keeps its width */
-      font-size: 20px; /* Adjust button size */
-      padding: 0 10px; /* Padding for better click area */
-      margin-right: 10px;
+      width: 100%; /* Full width for left column */
+      padding: 0px;
     }
   }
 `;
@@ -333,13 +327,6 @@ input.addEventListener('focus', function() {
 });
 
 input.addEventListener('blur', function() {
-  this.placeholder = window.innerWidth <= 768 ? 'Sign up' : 'Sign up for exclusive deals!';
+  this.placeholder = window.innerWidth <= 524 ? 'Sign up' : 'Sign up for exclusive deals!';
   form.classList.remove('focused');
 });
-
-setTimeout(function() {
-  if (!getCookie("mailchimp_subscribed")) {
-    showModal();
-    setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
-  }
-}, 1000);
