@@ -6,7 +6,7 @@ style.textContent = `
   .mailchimp-modal {
     display: flex;
     position: fixed;
-    z-index: 1000;
+    z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
