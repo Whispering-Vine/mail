@@ -299,6 +299,9 @@ form.addEventListener('submit', function(e) {
 
 // Check on page load if it's time to show the modal again
 window.onload = function() {
+
+  input.placeholder = window.innerWidth <= 524 ? 'Sign up' : 'Sign up for exclusive deals!';
+  
   const lastShown = getCookie("mailchimp_last_shown");
   const modalClosed = getCookie("mailchimp_modal_closed");
   
@@ -334,10 +337,5 @@ input.addEventListener('blur', function() {
   form.classList.remove('focused');
 });
 
-setTimeout(function() {
-  if (!getCookie("mailchimp_subscribed")) {
-    showModal();
-    setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
-  }
-}, 1000);
+
 
