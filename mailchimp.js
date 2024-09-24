@@ -197,7 +197,7 @@ const modalHTML = `
           <input type="hidden" name="u" value="841ac5f1d95f2aff901de9613">
           <input type="hidden" name="id" value="bea241e703">
           <div class="mailchimp-icon">
-            <img src="img/email.svg" alt="Email icon">
+            <img src="https://mail.wvwine.co/img/email.svg" alt="Email icon">
           </div>
           <input type="email" name="MERGE0" placeholder="Sign up for exclusive deals!" required class="mailchimp-input" autocomplete="email">
           <button type="submit" class="mailchimp-button">→</button>
@@ -205,7 +205,7 @@ const modalHTML = `
         <div class="subscription-message">Thanks for Subscribing!</div>
       </div>
       <div class="mailchimp-right-column">
-        <img src="img/wine_bottles.jpg" alt="Artistic image" class="mailchimp-image">
+        <img src="https://mail.wvwine.co/img/wine_bottles.jpg" alt="Artistic image" class="mailchimp-image">
       </div>
     </div>
   </div>
