@@ -300,14 +300,6 @@ form.addEventListener('submit', function(e) {
   });
 });
 
-// Show modal after 15 seconds if user hasn't subscribed
-setTimeout(function() {
-  if (!getCookie("mailchimp_subscribed")) {
-    showModal();
-    setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
-  }
-}, 1000);
-
 // Check on page load if it's time to show the modal again
 window.onload = function() {
   const lastShown = getCookie("mailchimp_last_shown");
