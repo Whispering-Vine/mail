@@ -27,6 +27,7 @@ style.textContent = `
     background-color: #2c2c2e;
     border-radius: 12px;
     width: 90%;
+    min-height: 325px;
     max-width: 800px;
     display: flex;
     position: relative;
@@ -170,6 +171,7 @@ style.textContent = `
       width: 100%; /* Full width for mobile */
       max-width: none; /* No max width for mobile */
       padding: 20px; /* Padding adjustment for mobile */
+      height: auto;
     }
     .mailchimp-right-column {
       display: none; /* Hide right column on mobile */
