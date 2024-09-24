@@ -164,6 +164,7 @@
                 mode: 'no-cors'
             })
             .then(response => {
+                console.log('Fetched');
                 form.style.display = 'none';
                 message.classList.add('show');
                 
