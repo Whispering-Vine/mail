@@ -179,6 +179,9 @@ style.textContent = `
       width: 100%; /* Full width for left column */
       padding: 0px;
     }
+    .mailchimp-input {
+      width: 100%;
+    }
   }
 `;
 document.head.appendChild(style);
