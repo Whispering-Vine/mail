@@ -298,13 +298,13 @@ form.addEventListener('submit', function(e) {
 });
 
 window.addEventListener('resize', () => {
-  input.placeholder = window.innerWidth <= 524 ? 'Sign up' : 'Sign up for exclusive deals!';
+  input.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
 });
 
 // Check on page load if it's time to show the modal again
 window.onload = function() {
 
-  input.placeholder = window.innerWidth <= 524 ? 'Sign up' : 'Sign up for exclusive deals!';
+  input.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
   
   const lastShown = getCookie("mailchimp_last_shown");
   const modalClosed = getCookie("mailchimp_modal_closed");
