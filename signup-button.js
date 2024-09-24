@@ -149,6 +149,9 @@
                 updatePlaceholder();
                 newsletterContainer.classList.remove('focused');
             });
+
+            var form = div.querySelector('#wv-newsletter-form');
+            console.log(form); // Check if this logs the form element
     
             div.querySelector('#wv-newsletter-form').addEventListener('submit', function(e) {
                 console.log('Submit button pressed!'); // Check if this is logged in the console
