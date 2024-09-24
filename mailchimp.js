@@ -148,6 +148,7 @@ style.textContent = `
   select:-webkit-autofill:focus {
     /* -webkit-box-shadow: 0 0 0px 1000px #3a3a3c inset !important; */
     -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
     /* This is a bonus from here: https://github.com/nextui-org/nextui/issues/1346#issuecomment-1855635162*/
     transition: background-color 5000s ease-in-out 0s;
   }
