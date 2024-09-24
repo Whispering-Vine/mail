@@ -25,8 +25,7 @@
             position: relative;
         }
         .newsletter-icon {
-            padding: 16px 0 16px 20px;
-            height: 24px;
+            padding: 2px 0 8px 20px;
             z-index: 1;
         }
         .newsletter-icon img {
