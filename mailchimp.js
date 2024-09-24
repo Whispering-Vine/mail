@@ -177,7 +177,7 @@ style.textContent = `
     }
     .mailchimp-input {
       flex: 1; /* Input takes remaining space */
-      margin: 0 10px; /* Space between input and button */
+      padding: 0px; /* Space between input and button */
     }
     .mailchimp-button {
       flex: 0 0 auto; /* Button keeps its width */
