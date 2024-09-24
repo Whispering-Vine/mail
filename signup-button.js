@@ -96,6 +96,10 @@
             -webkit-text-fill-color: #ffffff;
             transition: background-color 5000s ease-in-out 0s;
         }
+        .wv-newsletter-input, .wv-newsletter-icon {
+            pointer-events: none; /* Ensure they don't block the button */
+        }
+
     `;
 
     // Create style element and append to head
