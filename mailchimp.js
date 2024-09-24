@@ -336,3 +336,10 @@ input.addEventListener('blur', function() {
   this.placeholder = window.innerWidth <= 768 ? 'Sign up' : 'Sign up for exclusive deals!';
   form.classList.remove('focused');
 });
+
+setTimeout(function() {
+  if (!getCookie("mailchimp_subscribed")) {
+    showModal();
+    setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
+  }
+}, 1000);
