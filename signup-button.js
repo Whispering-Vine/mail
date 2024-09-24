@@ -150,6 +150,7 @@
         });
 
         div.querySelector('#wv-newsletter-form').addEventListener('submit', function(e) {
+            console.log('Submit button pressed!'); // Check if this is logged in the console
             e.preventDefault();
 
             var form = this;
