@@ -327,6 +327,6 @@ input.addEventListener('focus', function() {
 });
 
 input.addEventListener('blur', function() {
-  this.placeholder = 'Sign up for exclusive deals!';
+  this.placeholder = window.innerWidth <= 768 ? 'Sign up' : 'Sign up for exclusive deals!';
   form.classList.remove('focused');
 });
