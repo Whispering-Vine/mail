@@ -154,7 +154,7 @@ style.textContent = `
   
   @media (max-width: 768px) {
     .mailchimp-modal-content {
-      flex-direction: column;
+      flex-direction: row;
       align-items: stretch; /* Ensure items stretch to full width */
     }
     .mailchimp-right-column {
