@@ -97,7 +97,6 @@ style.textContent = `
   }
   .mailchimp-icon {
     padding: 16px 0 16px 20px;
-    height: 24px;
   }
   .mailchimp-icon img {
     width: 24px;
