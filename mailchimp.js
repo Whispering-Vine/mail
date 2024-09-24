@@ -317,17 +317,19 @@ window.onload = function() {
     }
   }
 
-  if (lastShown) {
-    const fiveDaysAgo = new Date(new Date().getTime() - (5 * 24 * 60 * 60 * 1000));
-    if (new Date(lastShown) < fiveDaysAgo && !getCookie("mailchimp_subscribed")) {
+  setTimeout(function() {
+    if (lastShown) {
+      const fiveDaysAgo = new Date(new Date().getTime() - (5 * 24 * 60 * 60 * 1000));
+      if (new Date(lastShown) < fiveDaysAgo && !getCookie("mailchimp_subscribed")) {
+        showModal();
+        setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
+      }
+    } else {
+      // Show the modal if the user hasn't subscribed or hasn't seen it
       showModal();
       setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
     }
-  } else {
-    // Show the modal if the user hasn't subscribed or hasn't seen it
-    showModal();
-    setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
-  }
+  }, 15000);
 }
 
 // Add focus and blur events to input
