@@ -96,10 +96,13 @@
             -webkit-text-fill-color: #ffffff;
             transition: background-color 5000s ease-in-out 0s;
         }
-        .wv-newsletter-input, .wv-newsletter-icon {
-            pointer-events: none; /* Ensure they don't block the button */
+        .wv-newsletter-input {
+            z-index: 1; /* Ensure input is interactive */
         }
-
+        
+        .wv-newsletter-button {
+            z-index: 2; /* Ensure button is on top and clickable */
+        }
     `;
 
     // Create style element and append to head
