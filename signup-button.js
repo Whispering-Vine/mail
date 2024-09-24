@@ -119,66 +119,68 @@
         </div>
     `;
 
-    // Find all divs with class "email-signup" and replace them with the newsletter form
-    var signupDivs = document.querySelectorAll('.email-signup');
-    signupDivs.forEach(function(div) {
-        div.innerHTML = template;
-
-        var newsletterInput = div.querySelector('.wv-newsletter-input');
-        var newsletterContainer = div.querySelector('.wv-newsletter-container');
-
-        // Function to update placeholder based on container width
-        function updatePlaceholder() {
-            newsletterInput.placeholder = newsletterContainer.offsetWidth <= 350 ? 'Sign up' : 'Sign up for exclusive deals!';
-        }
-
-        // Initial call to set placeholder
-        updatePlaceholder();
-
-        // Add resize observer to update placeholder when container size changes
-        var resizeObserver = new ResizeObserver(updatePlaceholder);
-        resizeObserver.observe(newsletterContainer);
-
-        newsletterInput.addEventListener('focus', function() {
-            this.placeholder = 'Enter your email';
-            newsletterContainer.classList.add('focused');
-        });
-
-        newsletterInput.addEventListener('blur', function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all divs with class "email-signup" and replace them with the newsletter form
+        var signupDivs = document.querySelectorAll('.email-signup');
+        signupDivs.forEach(function(div) {
+            div.innerHTML = template;
+    
+            var newsletterInput = div.querySelector('.wv-newsletter-input');
+            var newsletterContainer = div.querySelector('.wv-newsletter-container');
+    
+            // Function to update placeholder based on container width
+            function updatePlaceholder() {
+                newsletterInput.placeholder = newsletterContainer.offsetWidth <= 350 ? 'Sign up' : 'Sign up for exclusive deals!';
+            }
+    
+            // Initial call to set placeholder
             updatePlaceholder();
-            newsletterContainer.classList.remove('focused');
-        });
-
-        div.querySelector('#wv-newsletter-form').addEventListener('submit', function(e) {
-            console.log('Submit button pressed!'); // Check if this is logged in the console
-            e.preventDefault();
-
-            var form = this;
-            var url = form.action;
-            var formData = new FormData(form);
-            var container = form.closest('.wv-newsletter-container');
-            var message = container.querySelector('.wv-subscription-message');
-
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            })
-            .then(response => {
-                form.style.display = 'none';
-                message.classList.add('show');
-                
-                setTimeout(() => {
-                    message.classList.remove('show');
+    
+            // Add resize observer to update placeholder when container size changes
+            var resizeObserver = new ResizeObserver(updatePlaceholder);
+            resizeObserver.observe(newsletterContainer);
+    
+            newsletterInput.addEventListener('focus', function() {
+                this.placeholder = 'Enter your email';
+                newsletterContainer.classList.add('focused');
+            });
+    
+            newsletterInput.addEventListener('blur', function() {
+                updatePlaceholder();
+                newsletterContainer.classList.remove('focused');
+            });
+    
+            div.querySelector('#wv-newsletter-form').addEventListener('submit', function(e) {
+                console.log('Submit button pressed!'); // Check if this is logged in the console
+                e.preventDefault();
+    
+                var form = this;
+                var url = form.action;
+                var formData = new FormData(form);
+                var container = form.closest('.wv-newsletter-container');
+                var message = container.querySelector('.wv-subscription-message');
+    
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                })
+                .then(response => {
+                    form.style.display = 'none';
+                    message.classList.add('show');
+                    
                     setTimeout(() => {
-                        form.style.display = 'flex';
-                        form.reset();
-                    }, 300);
-                }, 3000);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error. Please try again later.');
+                        message.classList.remove('show');
+                        setTimeout(() => {
+                            form.style.display = 'flex';
+                            form.reset();
+                        }, 300);
+                    }, 3000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error. Please try again later.');
+                });
             });
         });
     });
