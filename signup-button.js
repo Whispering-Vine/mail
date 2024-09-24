@@ -113,7 +113,7 @@
     // HTML template for the newsletter signup form
     var template = `
         <div class="wv-newsletter-container">
-            <form id="wv-newsletter-form" onsubmit="console.log('Inline submit triggered!')" action="https://whisperingvinewine.us22.list-manage.com/subscribe/post?u=841ac5f1d95f2aff901de9613&amp;id=bea241e703" method="POST" class="wv-newsletter-form">
+            <form id="wv-newsletter-form" action="https://whisperingvinewine.us22.list-manage.com/subscribe/post?u=841ac5f1d95f2aff901de9613&amp;id=bea241e703" method="POST" class="wv-newsletter-form">
                 <input type="hidden" name="id" value="bea241e703">
                 <input type="hidden" name="u" value="841ac5f1d95f2aff901de9613">
                 <div class="wv-newsletter-icon">
@@ -125,6 +125,17 @@
             <div class="wv-subscription-message">Thanks for Subscribing!</div>
         </div>
     `;
+
+    // Function to set cookie
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
         // Find all divs with class "email-signup" and replace them with the newsletter form
@@ -161,7 +172,6 @@
             console.log(form); // Check if this logs the form element
     
             div.querySelector('#wv-newsletter-form').addEventListener('submit', function(e) {
-                console.log('Submit button pressed!'); // Check if this is logged in the console
                 e.preventDefault();
     
                 var form = this;
@@ -178,6 +188,7 @@
                 .then(response => {
                     form.style.display = 'none';
                     message.classList.add('show');
+                    setCookie("mailchimp_subscribed", "true", 365);
                     
                     setTimeout(() => {
                         message.classList.remove('show');
