@@ -297,6 +297,10 @@ form.addEventListener('submit', function(e) {
   });
 });
 
+window.addEventListener('resize', () => {
+  input.placeholder = window.innerWidth <= 524 ? 'Sign up' : 'Sign up for exclusive deals!';
+});
+
 // Check on page load if it's time to show the modal again
 window.onload = function() {
 
@@ -333,7 +337,7 @@ input.addEventListener('focus', function() {
 });
 
 input.addEventListener('blur', function() {
-  this.placeholder = window.innerWidth <= 524 ? 'Sign up' : 'Sign up for exclusive deals!';
+  this.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
   form.classList.remove('focused');
 });
 
