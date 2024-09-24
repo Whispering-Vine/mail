@@ -135,6 +135,8 @@ style.textContent = `
     color: #ffffff;
     text-align: center;
     margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
   }
 
   input:-webkit-autofill,
