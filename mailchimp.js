@@ -152,13 +152,42 @@ style.textContent = `
     transition: background-color 5000s ease-in-out 0s;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1008px) {
     .mailchimp-modal-content {
       flex-direction: column;
       align-items: stretch; /* Ensure items stretch to full width */
     }
     .mailchimp-right-column {
       display: none;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mailchimp-modal-content {
+      flex-direction: column; /* Column for overall layout */
+      align-items: center; /* Center content horizontally */
+    }
+    .mailchimp-left-column {
+      width: 100%; /* Make left column full width */
+      padding: 20px; /* Adjust padding */
+    }
+    .mailchimp-form {
+      display: flex; /* Keep items next to each other */
+      width: 100%; /* Full width for form */
+      justify-content: space-between; /* Space items evenly */
+    }
+    .mailchimp-icon {
+      flex: 0 0 auto; /* Allow icon to keep its width */
+    }
+    .mailchimp-input {
+      flex: 1; /* Input takes remaining space */
+      margin: 0 10px; /* Space between input and button */
+      max-width: 150px; /* Limit max width for input */
+    }
+    .mailchimp-button {
+      flex: 0 0 auto; /* Button keeps its width */
+      font-size: 20px; /* Adjust button size */
+      padding: 0 10px; /* Padding for better click area */
     }
   }
 `;
