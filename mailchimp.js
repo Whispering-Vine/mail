@@ -154,14 +154,11 @@ style.textContent = `
   
   @media (max-width: 768px) {
     .mailchimp-modal-content {
-      flex-direction: row;
+      flex-direction: column;
       align-items: stretch; /* Ensure items stretch to full width */
     }
     .mailchimp-right-column {
       display: none;
-    }
-    .mailchimp-form {
-      flex-direction: column; /* Stack input and button vertically */
     }
     .mailchimp-input {
       margin-bottom: 10px; /* Space between input and button */
