@@ -160,14 +160,6 @@ style.textContent = `
     .mailchimp-right-column {
       display: none;
     }
-    .mailchimp-input {
-      margin-bottom: 10px; /* Space between input and button */
-      width: 100%; /* Make input full width */
-    }
-    .mailchimp-button {
-      width: 100%; /* Make button full width */
-      font-size: 24px; /* Increase font size for better visibility */
-    }
   }
 `;
 document.head.appendChild(style);
