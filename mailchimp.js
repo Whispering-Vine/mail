@@ -170,8 +170,8 @@ style.textContent = `
       border-bottom-right-radius: 0px;
       width: 100%; /* Full width for mobile */
       max-width: none; /* No max width for mobile */
+      min-height: auto;
       padding: 20px; /* Padding adjustment for mobile */
-      height: auto;
     }
     .mailchimp-right-column {
       display: none; /* Hide right column on mobile */
