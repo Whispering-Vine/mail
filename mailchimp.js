@@ -203,7 +203,7 @@ const modalHTML = `
           <div class="mailchimp-icon">
             <img src="https://mail.wvwine.co/img/email.svg" alt="Email icon">
           </div>
-          <input type="email" name="MERGE0" placeholder="Sign up for exclusive deals!" required class="mailchimp-input" autocomplete="email">
+          <input type="email" name="MERGE0" placeholder="Sign up for exclusive deals!" aria-label="Newsletter Email" required class="mailchimp-input" autocomplete="email">
           <button type="submit" class="mailchimp-button">→</button>
         </form>
         <div class="subscription-message">Thanks for Subscribing!</div>
