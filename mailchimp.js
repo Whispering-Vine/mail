@@ -24,7 +24,7 @@ style.textContent = `
     visibility: visible;
   }
   .mailchimp-modal-content {
-    background-color: #2c2c2e;
+    background-color: #0d0d0d;
     border-radius: 12px;
     width: 90%;
     min-height: 325px;
