@@ -12,7 +12,8 @@ style.textContent = `
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     align-items: center;
     justify-content: center;
     opacity: 0;
