@@ -1,0 +1,34 @@
+name: Minify signup-button.js
+
+on:
+  push:
+    paths:
+      - 'signup-button.js'  # Only trigger when this file changes
+  workflow_dispatch:
+
+jobs:
+  minify_js:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Specify the Node.js version you prefer
+
+      - name: Install UglifyJS
+        run: npm install -g uglify-js
+
+      - name: Minify signup-button.js
+        run: uglifyjs signup-button.js -o signup-button.min.js --compress --mangle
+        
+      - name: Commit minified file
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: update minified signup-button.js"
+          add: "signup-button.min.js"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
