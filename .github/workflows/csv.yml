@@ -1,0 +1,43 @@
+name: Daily CSV Download and Upload
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Runs every day at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  daily-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm install
+
+      # Write the tock-auth.json file from the secret
+      - name: Create tock-auth.json
+        run: echo '${{ secrets.TOCK_AUTH_JSON }}' > tock-auth.json
+        shell: bash
+
+      - name: Run login-and-save script
+        run: node login-and-save.js
+
+      - name: Run upload-guests script
+        run: node upload-guests.js
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+
+      - name: Run upload-email-to-mailchimp script
+        run: node upload-email-to-mailchimp.js
+        env:
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_SERVER_PREFIX: ${{ secrets.MAILCHIMP_SERVER_PREFIX }}
+          MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
