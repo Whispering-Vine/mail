@@ -1,0 +1,28 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.17.30",
+    "@types/node-fetch": "^2.6.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@supabase/supabase-js": "^2.49.4",
+    "csv-parser": "^3.2.0",
+    "express": "^4.19.2",
+    "fetch-h2": "^3.0.2",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^3.3.2",
+    "util": "^0.12.5"
+  }
+}
