@@ -34,7 +34,7 @@ style.textContent = `
     position: relative;
     opacity: 0;
     transition: opacity 0.5s ease;
-    box-shadow: 0px 0px 20px 15px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px 4px rgba(240, 240, 240, 0.2);
     overflow: hidden;
   }
   .mailchimp-modal.active .mailchimp-modal-content {
