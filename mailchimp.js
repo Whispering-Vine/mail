@@ -28,12 +28,13 @@ style.textContent = `
     background-color: #0d0d0d;
     border-radius: 12px;
     width: 90%;
-    min-height: 325px;
-    max-width: 800px;
+    min-height: 420px;
+    max-width: 900px;
     display: flex;
     position: relative;
     opacity: 0;
     transition: opacity 0.5s ease;
+    box-shadow: 0px 0px 20px 15px rgba(255, 255, 255, 0.15)
     overflow: hidden;
   }
   .mailchimp-modal.active .mailchimp-modal-content {
