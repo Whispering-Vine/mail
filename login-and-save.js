@@ -44,7 +44,7 @@ const path = require('path');
 
     // Set date range and configure the download parameters
     await reviewsPage.getByTestId('daterange-picker-input').click();
-    await reviewsPage.getByTestId('date-range-shortcut-yesterday').click();
+    await reviewsPage.getByTestId('date-range-shortcut-last-week').click();
     await reviewsPage.getByText('ReviewsDownloadPrint').click();
 
     const [download] = await Promise.all([
