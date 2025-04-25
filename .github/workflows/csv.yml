@@ -38,6 +38,12 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
 
+      - name: Run upload-reviews script
+        run: node upload-reviews.js
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+
       - name: Run upload-email-to-mailchimp script
         run: node upload-email-to-mailchimp.js
         env:
