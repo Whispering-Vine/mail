@@ -198,7 +198,7 @@ const modalHTML = `
     <div class="mailchimp-modal-content">
       <span class="mailchimp-close">&times;</span>
       <div class="mailchimp-left-column">
-        <h2 style="color: #ffffff; font-family: 'Montserrat', sans-serif;">Subscribe to Our Newsletter</h2>
+        <h2 style="color: #ffffff; font-family: 'Montserrat', sans-serif;">Access insider-only deals & event updates</h2>
         <form id="mailchimpForm" action="https://whisperingvinewine.us22.list-manage.com/subscribe/post?u=841ac5f1d95f2aff901de9613&amp;id=bea241e703" method="POST" class="mailchimp-form">
           <input type="hidden" name="u" value="841ac5f1d95f2aff901de9613">
           <input type="hidden" name="id" value="bea241e703">
