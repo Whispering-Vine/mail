@@ -12,17 +12,17 @@ const csvFile = path.resolve(__dirname, 'reviews.csv');
 const reviews = [];
 
 function titleCaseHeader(header) {
-  return header
+    return header
+    .trim()
     .toLowerCase()
-    .split(' ')
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ');
+    .replace(/[^\w\s]/g, '')      // remove punctuation like quotes or emojis
+    .replace(/\s+/g, '_');     // replace spaces with underscores
 }
 
 function normalize(val, col) {
   const s = (val || '').toString().trim();
-  if (col === 'Email') return s.toLowerCase();
-  if (col === 'Phone') {
+  if (col === 'email') return s.toLowerCase();
+  if (col === 'phone') {
     const base = s.includes(';') ? s.split(';')[0] : s;
     const digits = base.replace(/\D/g, '');
     return digits ? `+${digits}` : '';
@@ -37,7 +37,7 @@ fs.createReadStream(csvFile)
     for (const [rawHeader, value] of Object.entries(rawRow)) {
       // Title-case to match your Supabase columns
       const col = titleCaseHeader(rawHeader);
-      if (col === 'Review Id' || col === 'Review_Id') continue; 
+      if (col === 'review_id' || col === 'review_id') continue; 
       row[col] = normalize(value, col);
     }
     reviews.push(row);
@@ -49,20 +49,20 @@ fs.createReadStream(csvFile)
     .from('reviews')
     .upsert(reviews, {
       onConflict: [
-        'Date',
-        'Last Name',
-        'First Name',
-        'Experience',
-        'Servers',
-        'Feedback Rating',
-        'Feedback Message',
-        'Total Spent',
-        'Email',
-        'Phone',
-        'Feedback Date',
-        'Feedback Time',
-        'Visit Time',
-        'Party Size'
+        'date',
+        'last_name',
+        'first_name',
+        'experience',
+        'servers',
+        'feedback_rating',
+        'feedback_message',
+        'total_spent',
+        'email',
+        'phone',
+        'feedback_date',
+        'feedback_time',
+        'visit_time',
+        'party_size'
       ].join(','),
       returning: 'representation'
     })
