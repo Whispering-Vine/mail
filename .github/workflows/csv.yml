@@ -31,6 +31,9 @@ jobs:
 
       - name: Run login-and-save script
         run: node login-and-save.js
+        env:
+          TOCK_EMAIL: ${{ secrets.TOCK_EMAIL }}
+          TOCK_PASSWORD: ${{ secrets.TOCK_PASSWORD }}
 
       - name: Run upload-guests script
         run: node upload-guests.js
