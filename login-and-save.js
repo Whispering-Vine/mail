@@ -18,7 +18,7 @@ const TOCK_PASSWORD = process.env.TOCK_PASSWORD;
   await loginPage.getByTestId('login-password-input').fill(TOCK_PASSWORD);
   await loginPage.getByTestId('login-submit-button').click();
 
-  Wait for something on the post‑login landing page to be sure you’re in
+  // Wait for something on the post‑login landing page to be sure you’re in
   await loginPage.waitForURL('**/app/**');
 
   // Open three pages (one for each download task)
