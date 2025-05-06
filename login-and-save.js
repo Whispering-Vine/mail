@@ -2,12 +2,24 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
+const TOCK_EMAIL = process.env.TOCK_EMAIL;
+const TOCK_PASSWORD = process.env.TOCK_PASSWORD;
+
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
-    storageState: 'tock-auth.json',
     acceptDownloads: true,
   });
+
+  const loginPage = await context.newPage();
+  await loginPage.goto('https://dashboard.exploretock.com/login?continueTo=%2Fapp');
+  await loginPage.getByTestId('login-email-input').fill(TOCK_EMAIL);
+  await loginPage.getByTestId('login-submit-button').click();
+  await loginPage.getByTestId('login-password-input').fill(TOCK_PASSWORD);
+  await loginPage.getByTestId('login-submit-button').click();
+
+  Wait for something on the post‑login landing page to be sure you’re in
+  await loginPage.waitForURL('**/app/**');
 
   // Open three pages (one for each download task)
   const guestsPage = await context.newPage();
