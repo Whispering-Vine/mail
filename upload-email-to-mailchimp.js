@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const mailchimp = require('@mailchimp/mailchimp_marketing');
 
 // CONFIGURATION CONSTANTS
-const DAYS_LIMIT = 2; // Only add people who opted in within the last 2 days
+const DAYS_LIMIT = 1; // Only add people who opted in within the last 2 days
 const MS_LIMIT = DAYS_LIMIT * 24 * 60 * 60 * 1000; // convert days to milliseconds
 
 mailchimp.setConfig({
