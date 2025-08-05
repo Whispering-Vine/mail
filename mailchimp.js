@@ -46,6 +46,8 @@ style.textContent = `
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    padding-bottom: 48px;
   }
   .mailchimp-right-column {
     flex: 1;
@@ -141,6 +143,21 @@ style.textContent = `
     font-size: 16px;
   }
 
+  .mailchimp-never-show {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #6a6868;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .mailchimp-never-show:hover {
+    text-decoration: underline;
+  }
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -184,6 +201,7 @@ style.textContent = `
     .mailchimp-left-column {
       width: 100%; /* Full width for left column */
       padding: 0px;
+      padding-bottom: 48px;
     }
     .mailchimp-input {
       width: 100%;
@@ -209,6 +227,7 @@ const modalHTML = `
           <button type="submit" class="mailchimp-button">→</button>
         </form>
         <div class="subscription-message">Thanks for Subscribing!</div>
+        <a href="#" class="mailchimp-never-show">Never show this again</a>
       </div>
       <div class="mailchimp-right-column">
         <img src="https://mail.wvwine.co/img/wine_bottles.jpg" alt="Artistic image" class="mailchimp-image">
@@ -226,6 +245,7 @@ const closeBtn = document.getElementsByClassName("mailchimp-close")[0];
 const form = document.getElementById("mailchimpForm");
 const input = form.querySelector('input[type="email"]');
 const message = document.querySelector('.subscription-message');
+const neverShowLink = document.querySelector('.mailchimp-never-show');
 
 // Function to set cookie
 function setCookie(name, value, days) {
@@ -267,6 +287,12 @@ window.onclick = function(event) {
     hideModal();
   }
 }
+
+neverShowLink.addEventListener('click', function(e) {
+  e.preventDefault();
+  setCookie("mailchimp_never_show", "true", 365);
+  hideModal();
+});
 
 // Handle form submission
 form.addEventListener('submit', function(e) {
@@ -311,6 +337,10 @@ window.addEventListener('resize', () => {
 window.onload = function() {
 
   input.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
+
+  if (getCookie("mailchimp_never_show")) {
+    return;
+  }
   
   const lastShown = getCookie("mailchimp_last_shown");
   const modalClosed = getCookie("mailchimp_modal_closed");
@@ -335,7 +365,7 @@ window.onload = function() {
       showModal();
       setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
     }
-  }, 15000);
+  }, 150);
 }
 
 // Add focus and blur events to input
@@ -348,6 +378,5 @@ input.addEventListener('blur', function() {
   this.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
   form.classList.remove('focused');
 });
-
 
 
