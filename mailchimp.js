@@ -134,6 +134,24 @@ style.textContent = `
   .mailchimp-button:hover {
     opacity: 1;
   }
+  .sms-question {
+    margin-top: 20px;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .sms-skip {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #6a6868;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .sms-skip:hover {
+    text-decoration: underline;
+  }
   .subscription-message {
     display: none;
     color: #ffffff;
@@ -224,6 +242,19 @@ const modalHTML = `
           <input type="email" name="MERGE0" placeholder="Sign up for exclusive deals!" aria-label="Newsletter Email" required class="mailchimp-input" autocomplete="email">
           <button type="submit" class="mailchimp-button">→</button>
         </form>
+        <div id="smsStep" style="display:none;">
+          <div class="sms-question">Want SMS updates too?</div>
+          <form id="smsForm" action="https://whisperingvinewine.us22.list-manage.com/subscribe/post?u=841ac5f1d95f2aff901de9613&amp;id=bea241e703" method="POST" class="mailchimp-form">
+            <input type="hidden" name="u" value="841ac5f1d95f2aff901de9613">
+            <input type="hidden" name="id" value="bea241e703">
+            <div class="mailchimp-icon">
+              <img src="https://mail.wvwine.co/img/phone.svg" alt="Phone icon">
+            </div>
+            <input type="tel" name="PHONE" placeholder="Enter your phone number" aria-label="Phone number" required class="mailchimp-input" autocomplete="tel">
+            <button type="submit" class="mailchimp-button">→</button>
+          </form>
+          <a href="#" class="sms-skip">No thanks</a>
+        </div>
         <div class="subscription-message">Thanks for Subscribing!</div>
         <a href="#" class="mailchimp-never-show">Never show this again</a>
       </div>
@@ -244,6 +275,11 @@ const form = document.getElementById("mailchimpForm");
 const input = form.querySelector('input[type="email"]');
 const message = document.querySelector('.subscription-message');
 const neverShowLink = document.querySelector('.mailchimp-never-show');
+const smsStep = document.getElementById('smsStep');
+const smsForm = document.getElementById('smsForm');
+const smsSkip = document.querySelector('.sms-skip');
+
+let subscribedEmail = '';
 
 // Function to set cookie
 function setCookie(name, value, days) {
@@ -271,11 +307,50 @@ function getCookie(name) {
 // Function to show modal
 function showModal() {
   modal.classList.add('active');
+  trackImpression();
 }
 
 // Function to hide modal
 function hideModal() {
   modal.classList.remove('active');
+}
+
+// Tracking helpers
+function trackImpression() {
+  if (!localStorage.getItem('mc_impression_tracked')) {
+    localStorage.setItem('mc_impression_tracked', 'true');
+    const key = 'mc_unique_impressions';
+    const count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+    localStorage.setItem(key, count);
+    updateRates();
+  }
+}
+
+function trackEmailOptIn() {
+  const key = 'mc_email_opt_ins';
+  const count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+  localStorage.setItem(key, count);
+  updateRates();
+}
+
+function trackSmsOptIn() {
+  const key = 'mc_sms_opt_ins';
+  const count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+  localStorage.setItem(key, count);
+  updateRates();
+}
+
+function updateRates() {
+  const impressions = parseInt(localStorage.getItem('mc_unique_impressions') || '0', 10);
+  const emailOptIns = parseInt(localStorage.getItem('mc_email_opt_ins') || '0', 10);
+  const smsOptIns = parseInt(localStorage.getItem('mc_sms_opt_ins') || '0', 10);
+
+  const emailRate = impressions ? (emailOptIns / impressions) : 0;
+  const smsRate = impressions ? (smsOptIns / impressions) : 0;
+
+  console.log('Unique impressions:', impressions);
+  console.log('Email opt in rate:', emailRate);
+  console.log('SMS opt in rate:', smsRate);
 }
 
 // Close modal when clicking on close button or outside the modal
@@ -322,18 +397,10 @@ form.addEventListener('submit', function(e) {
     body: fd
   })
   .then(() => {
+    subscribedEmail = email;
     form.style.display = 'none';
-    message.style.display = 'block';
-
-    setTimeout(() => {
-      message.style.display = 'none';
-      setTimeout(() => {
-        form.style.display = 'flex';
-        form.reset();
-      }, 300);
-      hideModal();
-    }, 2000);
-
+    smsStep.style.display = 'block';
+    trackEmailOptIn();
     setCookie("mailchimp_subscribed", "true", 365);
   })
   .catch(error => {
@@ -341,6 +408,58 @@ form.addEventListener('submit', function(e) {
     alert('There was an error. Please try again later.');
   });
 });
+
+smsForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const phone = (smsForm.querySelector('input[name="PHONE"], input[name="MERGE1"]')?.value || '').trim();
+  if (!phone) return;
+
+  const fd = new FormData();
+  fd.append('u',  '841ac5f1d95f2aff901de9613');
+  fd.append('id', 'bea241e703');
+  fd.append('MERGE0', subscribedEmail);
+  fd.append('EMAIL',  subscribedEmail);
+  fd.append('PHONE', phone);
+  fd.append('MERGE1', phone);
+  ['1','2','4','8','16'].forEach(v => fd.append(`group[256][${v}]`, '1'));
+
+  fetch('https://whisperingvinewine.us22.list-manage.com/subscribe/post', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: fd
+  })
+  .then(() => {
+    trackSmsOptIn();
+    finalizeSubscription();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('There was an error. Please try again later.');
+  });
+});
+
+smsSkip.addEventListener('click', function(e) {
+  e.preventDefault();
+  finalizeSubscription();
+});
+
+function finalizeSubscription() {
+  smsStep.style.display = 'none';
+  message.style.display = 'block';
+
+  setTimeout(() => {
+    message.style.display = 'none';
+    setTimeout(() => {
+      form.style.display = 'flex';
+      smsStep.style.display = 'none';
+      smsForm.reset();
+      form.reset();
+    }, 300);
+    hideModal();
+  }, 2000);
+  updateRates();
+}
 
 window.addEventListener('resize', () => {
   input.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
