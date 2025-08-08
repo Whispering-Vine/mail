@@ -167,39 +167,37 @@ style.textContent = `
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    /* -webkit-box-shadow: 0 0 0px 1000px #3a3a3c inset !important; */
     -webkit-background-clip: text;
     -webkit-text-fill-color: #ffffff;
-    /* This is a bonus from here: https://github.com/nextui-org/nextui/issues/1346#issuecomment-1855635162*/
     transition: background-color 5000s ease-in-out 0s;
   }
   
   @media (max-width: 768px) {
     .mailchimp-modal {
-      align-items: flex-end; /* Align to the bottom for mobile */
+      align-items: flex-end;
       justify-content: center;
-      height: auto; /* Adjust height for mobile */
-      bottom: -100%; /* Start off-screen at the bottom */
-      transition: opacity 0.5s ease, visibility 0.5s ease, bottom 0.5s ease; /* Add transition for bottom */
+      height: auto;
+      bottom: -100%;
+      transition: opacity 0.5s ease, visibility 0.5s ease, bottom 0.5s ease;
     }
     .mailchimp-modal.active {
-      bottom: 0; /* Slide up to visible */
+      bottom: 0;
     }
     .mailchimp-modal-content {
-      border-top-left-radius: 12px; /* Rounded top corners for mobile */
-      border-top-right-radius: 12px; /* Rounded top corners for mobile */
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0px;
-      width: 100%; /* Full width for mobile */
-      max-width: none; /* No max width for mobile */
+      width: 100%;
+      max-width: none;
       min-height: auto;
-      padding: 20px; /* Padding adjustment for mobile */
+      padding: 20px;
     }
     .mailchimp-right-column {
-      display: none; /* Hide right column on mobile */
+      display: none;
     }
     .mailchimp-left-column {
-      width: 100%; /* Full width for left column */
+      width: 100%;
       padding: 0px;
       padding-bottom: 48px;
     }
@@ -294,33 +292,48 @@ neverShowLink.addEventListener('click', function(e) {
   hideModal();
 });
 
-// Handle form submission
+// Handle form submission (intercept + build FormData manually)
 form.addEventListener('submit', function(e) {
   e.preventDefault();
-  var url = this.action;
-  var formData = new FormData(this);
 
-  fetch(url, {
+  const email = (form.querySelector('input[name="MERGE0"], input[name="EMAIL"]')?.value || '').trim();
+  if (!email) return;
+
+  const fd = new FormData();
+
+  // Required Mailchimp fields
+  fd.append('u',  '841ac5f1d95f2aff901de9613');
+  fd.append('id', 'bea241e703');
+
+  // Send both keys; endpoint accepts either
+  fd.append('MERGE0', email);
+  fd.append('EMAIL',  email);
+
+  // Force all interest groups (category 256)
+  ['1','2','4','8','16'].forEach(v => fd.append(`group[256][${v}]`, '1'));
+
+  // If you add a honeypot later, include it
+  const hp = form.querySelector('input[name^="b_"]');
+  if (hp) fd.append(hp.name, hp.value || '');
+
+  fetch('https://whisperingvinewine.us22.list-manage.com/subscribe/post', {
     method: 'POST',
-    body: formData,
-    mode: 'no-cors'
+    mode: 'no-cors',
+    body: fd
   })
-  .then(response => {
-    // Since we're using 'no-cors', we can't access the response content
-    // We'll just assume it was successful
+  .then(() => {
     form.style.display = 'none';
     message.style.display = 'block';
-    
+
     setTimeout(() => {
       message.style.display = 'none';
       setTimeout(() => {
         form.style.display = 'flex';
-        form.reset(); // Clear the form
-      }, 300); // Wait for fade out animation to complete
+        form.reset();
+      }, 300);
       hideModal();
-    }, 2000); // Show message for 2 seconds
+    }, 2000);
 
-    // Set cookie to remember subscription
     setCookie("mailchimp_subscribed", "true", 365);
   })
   .catch(error => {
@@ -349,7 +362,7 @@ window.onload = function() {
   if (modalClosed) {
     const sixDaysAgo = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
     if (new Date(modalClosed) > sixDaysAgo) {
-      return; // Do not show the modal if it was closed in the last 6 days
+      return;
     }
   }
 
@@ -361,7 +374,6 @@ window.onload = function() {
         setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
       }
     } else {
-      // Show the modal if the user hasn't subscribed or hasn't seen it
       showModal();
       setCookie("mailchimp_last_shown", new Date().toUTCString(), 5);
     }
@@ -378,5 +390,3 @@ input.addEventListener('blur', function() {
   this.placeholder = window.innerWidth <= 377 ? 'Sign up' : 'Sign up for exclusive deals!';
   form.classList.remove('focused');
 });
-
-
