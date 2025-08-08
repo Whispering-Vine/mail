@@ -96,13 +96,8 @@
             -webkit-text-fill-color: #ffffff;
             transition: background-color 5000s ease-in-out 0s;
         }
-        .wv-newsletter-input {
-            z-index: 1; /* Ensure input is interactive */
-        }
-        
-        .wv-newsletter-button {
-            z-index: 2; /* Ensure button is on top and clickable */
-        }
+        .wv-newsletter-input { z-index: 1; }
+        .wv-newsletter-button { z-index: 2; }
     `;
 
     // Create style element and append to head
@@ -142,63 +137,72 @@
         var signupDivs = document.querySelectorAll('.email-signup');
         signupDivs.forEach(function(div) {
             div.innerHTML = template;
-    
+
             var newsletterInput = div.querySelector('.wv-newsletter-input');
             var newsletterContainer = div.querySelector('.wv-newsletter-container');
-    
-            // Function to update placeholder based on container width
+
             function updatePlaceholder() {
                 newsletterInput.placeholder = newsletterContainer.offsetWidth <= 350 ? 'Sign up' : 'Sign up for exclusive deals!';
             }
-    
-            // Initial call to set placeholder
             updatePlaceholder();
-    
-            // Add resize observer to update placeholder when container size changes
             var resizeObserver = new ResizeObserver(updatePlaceholder);
             resizeObserver.observe(newsletterContainer);
-    
+
             newsletterInput.addEventListener('focus', function() {
                 this.placeholder = 'Enter your email';
                 newsletterContainer.classList.add('focused');
             });
-    
             newsletterInput.addEventListener('blur', function() {
                 updatePlaceholder();
                 newsletterContainer.classList.remove('focused');
             });
 
             var form = div.querySelector('#wv-newsletter-form');
-            console.log(form); // Check if this logs the form element
-    
-            div.querySelector('#wv-newsletter-form').addEventListener('submit', function(e) {
+            var message = div.querySelector('.wv-subscription-message');
+
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
-    
-                var form = this;
-                var url = form.action;
-                var formData = new FormData(form);
-                var container = form.closest('.wv-newsletter-container');
-                var message = container.querySelector('.wv-subscription-message');
-    
-                fetch(url, {
+
+                // Build FormData explicitly so we control exactly what gets sent
+                var fd = new FormData();
+
+                // Mailchimp required fields
+                var u  = form.querySelector('input[name="u"]').value;
+                var id = form.querySelector('input[name="id"]').value;
+                var email = (form.querySelector('input[name="MERGE0"]')?.value || '').trim();
+
+                fd.append('u', u);
+                fd.append('id', id);
+
+                // Send both EMAIL and MERGE0 (Mailchimp accepts either)
+                fd.append('MERGE0', email);
+                fd.append('EMAIL',  email);
+
+                // Force all interest groups (category 256)
+                ['1','2','4','8','16'].forEach(function(v){
+                    fd.append('group[256][' + v + ']', '1');
+                });
+
+                // Post directly to list-manage (opaque response due to no-cors is expected)
+                fetch('https://whisperingvinewine.us22.list-manage.com/subscribe/post', {
                     method: 'POST',
-                    body: formData,
+                    body: fd,
                     mode: 'no-cors'
                 })
-                .then(response => {
+                .then(function() {
                     form.style.display = 'none';
                     message.classList.add('show');
                     setCookie("mailchimp_subscribed", "true", 365);
-                    
-                    setTimeout(() => {
+
+                    setTimeout(function() {
                         message.classList.remove('show');
-                        setTimeout(() => {
+                        setTimeout(function() {
                             form.style.display = 'flex';
                             form.reset();
                         }, 300);
                     }, 3000);
                 })
-                .catch(error => {
+                .catch(function(error) {
                     console.error('Error:', error);
                     alert('There was an error. Please try again later.');
                 });
