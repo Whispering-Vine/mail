@@ -56,7 +56,7 @@ const TOCK_PASSWORD = process.env.TOCK_PASSWORD;
 
     // Set date range and configure the download parameters
     await reviewsPage.getByTestId('daterange-picker-input').click();
-    await reviewsPage.getByTestId('date-range-shortcut-last-7-days').click();
+    await reviewsPage.getByTestId('date-range-shortcut-last-month').click();
     await reviewsPage.getByText('ReviewsDownloadPrint').click();
 
     const [download] = await Promise.all([
